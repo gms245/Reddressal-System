@@ -1,0 +1,116 @@
+{% extends 'student/header.html' %}
+{% block content %}
+<script type="application/javascript">
+        var ws;
+        function init() {
+            var servermsg = document.getElementById("servermsg");
+            ws = new WebSocket("ws://"+window.location.hostname+":7000/");
+            ws.onopen = function(){
+                servermsg.innerHTML = servermsg.innerHTML + "<br>Server connected";
+            };
+            ws.onmessage = function(e){
+    alert('received');
+                servermsg.innerHTML = servermsg.innerHTML + "<br><< Recieved data: " + e.data;
+            };
+            ws.onclose = function(){
+                servermsg.innerHTML = servermsg.innerHTML + "<br>Server disconnected";
+            };
+        }
+        function postmsg(){
+            var text = document.getElementById("message").value;
+            ws.send(text);
+            servermsg.innerHTML = servermsg.innerHTML + "<br>>> Data sent: " + text;
+            text='';
+        }
+</script>
+<div class="container marketing">
+	<div class="row">
+		<h3>{{app.title}}</h3><br>
+		<blockquote>{{app.body | linebreaks}}</blockquote><br>
+		by {{app.originalwriter}}<br>
+		{% if index != 0 %}
+		Forwarded by {{reciever}}<br>
+		{% endif %}
+		{% if app.files_set.all.count != 0 %}
+		<h4>Attachments</h4>
+		{% for file in app.files_set.all %}
+		<a href={{file.file.url}}>
+		<button type="buttuon" class="btn btn-default">{{file.file.name}}</button></a><br>
+		<br>
+		{% endfor %}
+		{% endif %}
+		<div class="col-lg-4"><br><br><br><br><br><br>
+		
+		<a href={% url 'staff:reply' originalwriter_ app.slug %}><button class="btn btn-warning">Reply To {{app.originalwriter}}</button></a>
+		</div>
+		<div class="col-lg-4">
+			Forward To:
+			<form method="POST" action={% url 'staff:forward' app.slug %}>
+			{% csrf_token %}
+			<select class="form-control" name="dep">
+		<option>--------Choose Your Department------</option>
+		<option value="CSE">Computer Science and Engineering</option>
+		<option value='CIV'>Civil Engineering</option>
+		<option value="MEC">Mechanical Engineering</option>
+		<option value="EEE">Electrical Engineering</option>
+		<option value="ECE">Electronics Engineering</option>
+		<option value="APC">Applied Chemistry</option>
+		<option value="APM">Applied Maths</option>
+		<option value="APP">Applied Physics</option>
+		<option value="CHE">Chemical Engineering</option>
+		<option value="CER">Ceramic Engineering</option>
+		<option value="BCE">BioChemical Engineering</option>
+		<option value="BME">BioMedical Engineering</option>
+		<option value="MST">Material Science Engineering</option>
+		<option value="MET">Metallurgical Engineering</option>
+		<option value="MIN">Mining Engineering</option>
+		<option value="PEC">Pharmaceutical Engineering</option>
+		<option value="HSS">Humanities Department</option>
+		<option value="DEAN">-DEAN</option>
+		<option value="DIR">-Director</option>
+	</select>
+	<br>
+	<select class="form-control" name="pos">
+		<option>---------Choose the faculty---------</option>
+		<option value="HOD">Head of Department</option>
+		<option value="DOSA">Dean of Student Affairs DOSA</option>
+		<option value="DOAA">Dean of Academic Affairs DOAA</option>
+		<option value="DORA">Dean of Resource and Alumni DORA</option>
+		<option value="DORD">Dean of Research and Development DORD</option>
+		<option value="ADOAA">Associate Dean of Accademic Affairs Asst.DOAA</option>
+		<option value="DIR">Director</option>
+		<option value="REG">Registrar</option>
+		<option></option>
+	</select>
+		<br>
+		<input type="submit" class="btn btn-warning" value='Forward'>
+		</form>
+		</div>
+		<div class="col-lg-4"><br><br><br><br><br><br>
+		{% if app.isprocessed == False %}
+		<a href={% url 'staff:processed' app.slug %}><button class="btn btn-warning">Mark it as processed</button></a>{% endif %}
+		</div>
+		<br><br>
+	</div>
+
+	{% if replies.count != 0 %}
+		<h3>Replies</h3>
+		{% for reply in replies %}
+		{% if reply.writer.user == request.user or reply.reciever == request.user %}
+		<br>{{reply.writer.user.first_name}}<br>
+		{{reply.title}}<br>
+		<blockquote>{{reply.body}}</blockquote>
+		<br>
+		{% endif %}
+		{% endfor %}
+		{% endif %}
+		<br><!-- <a href={% url 'accounts:chat' %}>
+		<button type="button" class="btn btn-warning">Click to Chat!</button></a> -->
+    <form action="" method="POST" onSubmit="postmsg();return false;">
+    {% csrf_token %}
+        <input type="text" name="message" value="" id="message">
+        <input type="submit" name="submit" value="Send" id="submit">
+    </form>
+    <div id="servermsg"><h1>Message log:</h1></div>
+</div>
+{% endblock %}
