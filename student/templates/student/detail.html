@@ -1,0 +1,44 @@
+{% extends 'student/header.html' %}
+{% block content %}
+<div class="container marketing">
+<h3>{{App.title}}</h3>
+<br>
+<blockquote>
+{{App.body | linebreaks}}
+</blockquote>
+<br>
+{% if App.files_set.all.count != 0 %}
+		<h4>Attachments</h4>
+		{% for file in App.files_set.all %}
+		<a href={{file.file.url}}>
+		<button type="button" class="btn btn-default">{{file.file.name}}</button></a><br>
+		<br>
+		{% endfor %}
+		{% endif %}
+<h3>Status :-</h3>
+{% for reciever in recievers %}
+	{{reciever}} -->
+{% endfor %}
+ {% if App.isprocessed %}
+ processed
+ {% else %}
+ processing
+ {% endif %}
+ <br>
+{% if replies.count != 0 %}
+		<h3>Replies</h3>
+		{% for reply in replies %}
+		{% if reply.writer.user == request.user or reply.reciever == request.user %}
+		<br>{{reply.writer.user.first_name}}<br>
+		{{reply.title}}<br>
+		<blockquote>{{reply.body}}</blockquote>
+		<br>
+		{% endif %}
+		{% endfor %}
+		{% endif %}
+		<br>
+</div>
+<!-- {% for file in App.files_set.all %}
+	{{file.filename}}
+{% endfor %} -->
+{% endblock %}

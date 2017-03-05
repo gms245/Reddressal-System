@@ -1,0 +1,45 @@
+{% extends 'student/header.html' %}
+{% block content %}
+
+
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href={% static 'search.css' %}>
+<form method="GET">
+{% csrf_token %}
+<div class="row">
+        <div class="col-md-6">
+            <div id="custom-search-input">
+                <div class="input-group col-md-12">
+                    <input type="text" class="form-control input-lg" placeholder="Search" name="query" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-info btn-lg" type="button">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+	</div>
+</form>
+<br>
+{% if app_qs.count == 0 %}
+	<p>
+		No applications have been requested!.
+	</p>
+{% endif %}
+{% for app in app_qs %}
+	<a href="{% url 'student:detail' app.slug %}">
+		{% if app.isprocessed == True %}
+			<button type="button" class="btn btn-lg btn-block btn-success">
+					{{app.title}}  | {{app.date.date}}  |    Processed
+			</button>
+		{% else %}
+			<button type="button" class="btn btn-lg btn-block btn-warning">
+				{{app.title}}  | {{app.date.date}}   |   Not Processed
+			</button>
+		{% endif %}
+
+	</a><br>
+{% endfor %}
+
+{% endblock %}

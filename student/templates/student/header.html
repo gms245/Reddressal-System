@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    {% load staticfiles %}
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href={% static 'iitv.png' %}>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Central Grivance Redressal System</title>
+    <link href={% static 'dist/css/bootstrap.min.css' %} rel="stylesheet">
+    <link href={% static 'carousel.css' %} rel="stylesheet">
+    <link href={% static 'assets/css/main.css' %} rel="stylesheet">
+    <!-- <link href={% static 'sticky-footer.css' %} rel="stylesheet"> -->
+    <link href={% static 'as/css/font-awesome.min.css' %} rel="stylesheet">
+    <link href={% static 'as/css/style.css' %} rel="stylesheet">
+    <link href={% static 'as/css/animate.css' %} rel="stylesheet">
+    <link href={% static 'as/css/skin-red.css' %} rel="stylesheet">
+  </head>
+  <body onload="init();">
+    <div class="logo">
+          <img src={% static 'logo2.jpg' %} class="img-responsive">
+    </div>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li><a href="#">Welcome  {{request.user.first_name}}</a></li>
+              <li><a href={% url 'accounts:login' %}>Home</a></li> 
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href={% url 'accounts:logout' %}>Logout</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
+      {% block content %}
+      {% endblock %}
+      <footer id="foot-sec">
+<div class="footerdivide">
+</div>
+<div class="container ">
+<div class="row">
+<div class="">
+  
+</div>
+  <div class="text-center color-white col-sm-12 col-lg-12">
+    <ul class="social-icons">
+      <li><a href="http://www.facebook.com"><i class="fa fa-facebook"></i></a></li>
+      <li><a href="http://www.twitter.com"><i class="fa fa-twitter"></i></a></li>
+    </ul>
+    <p>
+       © Central Griveance Redressal System
+    </p>
+    <p>
+      Indian Institute of Technology (Banaras Hindu University) , Varanasi
+    </p>
+    <p>
+      Site developed and maintained by Prakhar Bansal
+    </p>
+  </div>
+</div>
+</div>
+</footer>
+
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src={% static 'assets/js/vendor/jquery.min.js' %}><\/script>')</script>
+    <script src={% static 'assets/js/vendor/holder.min.js' %}></script>
+    <script src={% static 'dist/js/bootstrap.min.js' %}></script>
+
+  </body>
+</html>

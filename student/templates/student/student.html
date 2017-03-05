@@ -1,0 +1,24 @@
+{% extends 'student/header.html' %}
+{% block content %}
+{% load staticfiles %}
+<div class="container marketing">
+<div class="row">
+        {% for message in messages %}
+        <center>
+        <button type="button" class="btn btn-success">
+        <font color="Black">{{message}}</font></button>
+        </center>
+        {% endfor %}
+        <div class="col-lg-4">
+          <img class="img-circle" src={% static 'pen-7.png' %} alt="Generic placeholder image" width="140" height="140">
+          <h2>Write a Grievance</h2>
+          <p><a class="btn btn-default" href="{% url 'student:create' %}" role="button">View details &raquo;</a></p>
+        </div>
+        <div class="col-lg-4">
+          <img class="img-rounded" src={% static 'loading.gif' %} alt="Generic placeholder image" width="140" height="140">
+          <h2>View Status</h2>
+          <p><a class="btn btn-default" href="{% url 'student:index' %}" role="button">View details &raquo;</a></p>
+        </div>
+
+    </div>
+{% endblock %}

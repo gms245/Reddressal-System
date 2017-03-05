@@ -1,0 +1,16 @@
+{% extends 'student/header.html' %}
+{% block content %}
+<div class="container marketing">
+Subject - 
+{{app.title}}
+<br>
+<blockquote>
+{{app.body | linebreaks}}
+</blockquote>
+<br>
+{{app.writer}}
+<br> {{app.writer.user.email}}
+<br>
+<a href={% url 'staff:reply' app.writer app.slug %}>Reply</a>
+</div>
+{% endblock %}

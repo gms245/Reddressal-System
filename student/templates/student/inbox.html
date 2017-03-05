@@ -1,0 +1,12 @@
+{% extends 'student/header.html' %}
+{% block content %}
+<div class="container marketing">
+{% for app in apps %}
+{% if app.parent == 0 %}
+	<a href="{% url 'student:inbox_detail' app.slug %}"><button type="button" class="btn btn-lg btn-block btn-default">
+				{{app.title}}  | {{app.date.date}}
+			</button></a><br>
+{% endif %}
+{% endfor %}
+</div>
+{% endblock %}
