@@ -12,7 +12,7 @@ async def hello(websocket, path):
     print(websocket,"\n is disconnected from chat....")
     
 
-start_server = websockets.serve(hello, '0.0.0.0', 9000)
-print('Server started  localhost:9000...\nServer Logs....\n')
+start_server = websockets.serve(hello, '0.0.0.0', 7000)
+print('Server started  0.0.0.0:9000...\nServer Logs....\n')
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()
